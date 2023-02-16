@@ -34,9 +34,9 @@ pub mod myepicproject {
         Ok(())
     }
 
-    pub fn upvote_gif(ctx: Context<AddGif>, gif_id: String) -> Result <()> {
+    pub fn upvote_gif(ctx: Context<AddGif>, index: u8) -> Result <()> {
         let base_account = &mut ctx.accounts.base_account;
-        base_account.gif_list[0].votes += 1;
+        base_account.gif_list[index as usize].votes += 1;
         Ok(())
     }
 }

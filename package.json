@@ -3,7 +3,8 @@
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
     "start": "cd app && yarn start",
-    "redeploy": "node createKeyPair && anchor test && anchor idl upgrade -f target/idl/myepicproject.json `solana address -k target/deploy/myepicproject-keypair.json`"
+    "soft-redeploy": "anchor test && anchor idl upgrade -f target/idl/myepicproject.json `solana address -k target/deploy/myepicproject-keypair.json`",
+    "hard-redeploy": "node createKeyPair && npm run soft-redeploy"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.26.0"

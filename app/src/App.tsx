@@ -55,6 +55,9 @@ const TEST_GIFS = [
 type Item = {
   gifLink: string;
   userAddress: web3.PublicKey;
+  votes: {
+    toNumber: () => number;
+  };
 };
 
 const App = () => {
@@ -129,23 +132,24 @@ const App = () => {
     // }
   };
 
-  const upvoteGif = async (gifId: string) => {
-    console.log(`Upvoting ${gifId}...`);
+  const upvoteGif = async (index: number) => {
+    console.log(`Upvoting ${index}...`);
     try {
       const provider = getProvider();
       const program = await getProgram();
 
-      await program.rpc.upvoteGif(gifId, {
+      console.log("Calling upvoteGif...");
+      await program.rpc.upvoteGif(index, {
         accounts: {
           baseAccount: baseAccount.publicKey,
           user: provider.wallet.publicKey,
         },
       });
-      console.log(`Successfully upvoted ${gifId}!`);
+      console.log(`Successfully upvoted ${index}!`);
 
       await getGifList();
     } catch (error) {
-      console.log(`Error upvoting ${gifId}: ${error}`);
+      console.log(`Error upvoting ${index}: ${error}`);
     }
     // if (!gifList) throw new Error(`gifList is ${gifList}`);
     // if (inputValue.length > 0) {
@@ -265,8 +269,9 @@ const App = () => {
                     alt=""
                     style={{ width: "5em", height: "5em" }}
                   />
-                  {item.userAddress.toString()}
-                  <button onClick={() => upvoteGif("gifId")}>+1</button>
+                  <p style={{ margin: 0 }}>{item.userAddress.toString()}</p>
+                  <p style={{ margin: 0 }}>{item.votes.toNumber()} votes</p>
+                  <button onClick={() => upvoteGif(index)}>+1</button>
                 </>
               </div>
             ))}
