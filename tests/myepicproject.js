@@ -18,16 +18,14 @@ const main = async () => {
   const baseAccount = anchor.web3.Keypair.generate();
 
   // Call start_stuff_off, pass it the params it needs!
-  const tx = await program.methods
-    .startStuffOff({
-      accounts: {
-        baseAccount: baseAccount.publicKey,
-        user: provider.wallet.publicKey,
-        systemProgram: SystemProgram.programId,
-      },
-      signers: [baseAccount],
-    })
-    .rpc();
+  const tx = await program.rpc.startStuffOff({
+    accounts: {
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+      systemProgram: SystemProgram.programId,
+    },
+    signers: [baseAccount],
+  });
 
   console.log("📝 Your transaction signature", tx);
 
@@ -36,15 +34,13 @@ const main = async () => {
   console.log("👀 GIF Count", account.totalGifs.toString());
 
   // You'll need to pass a GIF link to the function! You'll also need to pass in the user submitting the GIF!
-  await program.methods
-    .addGif("insert_a_giphy_link_here", {
-      // https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp
-      accounts: {
-        baseAccount: baseAccount.publicKey,
-        user: provider.wallet.publicKey,
-      },
-    })
-    .rpc();
+  await program.rpc.addGif("insert_a_giphy_link_here", {
+    // https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp
+    accounts: {
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+    },
+  });
 
   // Call the account
   account = await program.account.baseAccount.fetch(baseAccount.publicKey);

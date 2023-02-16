@@ -25,11 +25,18 @@ pub mod myepicproject {
         let item = ItemStruct {
             gif_link: gif_link.to_string(),
             user_address: *user.to_account_info().key,
+            votes: 0
         };
 
         // Add it to the gif_list vector.
         base_account.gif_list.push(item);
         base_account.total_gifs += 1;
+        Ok(())
+    }
+
+    pub fn upvote_gif(ctx: Context<AddGif>, gif_id: String) -> Result <()> {
+        let base_account = &mut ctx.accounts.base_account;
+        base_account.gif_list[0].votes += 1;
         Ok(())
     }
 }
@@ -60,6 +67,7 @@ pub struct AddGif<'info> {
 pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
+    pub votes: u64,
 }
 
 // Tell Solana what we want to store on this account.
